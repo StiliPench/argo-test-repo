@@ -5,10 +5,9 @@ metadata:
   labels:
     app: nginx
 spec:
-  type: NodePort
+  type: LoadBalancer  # Change to LoadBalancer for external access
   ports:
   - port: 80
     targetPort: 80
-    nodePort: 30007 # Change this port if needed
   selector:
     app: nginx
