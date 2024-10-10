@@ -2,10 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
+  namespace: argocd
   labels:
     app: nginx
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"   # Specify ALB
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing" # or "internal" for internal access
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "HTTP"
 spec:
-  type: LoadBalancer  # Change to LoadBalancer for external access
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 80
