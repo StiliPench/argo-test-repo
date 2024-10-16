@@ -8,10 +8,10 @@ spec:
   strategy:
     canary:
       steps:
-        - setWeight: 20
-        - pause: { duration: 60s }
-        - setWeight: 50
-        - pause: { duration: 60s }
+        - setWeight: 10
+        - pause: { duration: 5s }
+        - setWeight: 30
+        - pause: { duration: 5s }
         - setWeight: 100
   selector:
     matchLabels:
@@ -23,6 +23,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.21.1
+          image: nginx:1.26.0
           ports:
             - containerPort: 80
