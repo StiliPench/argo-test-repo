@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-canary-service
-  namespcae: nginx-canary
+  namespace: nginx-canary
 spec:
   selector:
     app: nginx-canary
