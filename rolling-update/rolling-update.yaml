@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: nginx-rolling-update
+  namespace: nginx-rolling
+spec:
+  replicas: 3
+  strategy:
+    canary: {}
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.21.0  # Initial version of the image
+          ports:
+            - containerPort: 80
