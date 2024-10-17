@@ -9,11 +9,11 @@ spec:
     canary: {}
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-rolling-update
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-rolling-update
     spec:
       containers:
         - name: nginx
