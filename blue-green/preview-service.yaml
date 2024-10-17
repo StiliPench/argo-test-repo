@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-preview
+  namespace: nginx-blue-green
+spec:
+  selector:
+    app: nginx-bluegreen  # Updated automatically to point to the preview version
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-bluegreen-service
+  name: nginx-active
   namespace: nginx-blue-green
 spec:
   selector:
-    app: nginx-bluegreen
+    app: nginx-bluegreen  # Updated automatically to point to the active version
   ports:
     - protocol: TCP
       port: 80

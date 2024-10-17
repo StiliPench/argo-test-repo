@@ -9,7 +9,7 @@ spec:
     blueGreen:
       activeService: nginx-active
       previewService: nginx-preview
-      autoPromotionEnabled: false # Set to true to automatically promote after testing
+      autoPromotionEnabled: false # Set to true for automatic promotion
       scaleDownDelaySeconds: 30   # Delay before scaling down the old version
   selector:
     matchLabels:
@@ -21,6 +21,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.21.0  # Start with the initial version
+          image: nginx:1.21.0  # Initial version of the image
           ports:
             - containerPort: 80
