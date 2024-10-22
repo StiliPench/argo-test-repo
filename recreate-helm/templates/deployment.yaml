@@ -7,7 +7,10 @@ metadata:
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
-    recreate: {}  # This specifies the Recreate strategy
+    blueGreen:
+      activeService: {{ .Release.Name }}-active
+      autoPromotionEnabled: true  # Automatically promote the new version
+      scaleDownDelaySeconds: 0
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
