@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ .Release.Name }}-ab-test-rollout
+  labels:
+    app: {{ .Values.app.name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50  # Split traffic 50% for each version
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      containers:
+        - name: version-a
+          image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
+          ports:
+            - containerPort: 80
+        - name: version-b
+          image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
+          ports:
+            - containerPort: 80
