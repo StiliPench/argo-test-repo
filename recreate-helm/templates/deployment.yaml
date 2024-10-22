@@ -10,7 +10,7 @@ spec:
     blueGreen:
       activeService: {{ .Release.Name }}-active
       autoPromotionEnabled: true  # Automatically promote the new version
-      scaleDownDelaySeconds: 0
+      scaleDownDelaySeconds: 1
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
