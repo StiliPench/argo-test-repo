@@ -11,6 +11,7 @@ spec:
       activeService: {{ .Release.Name }}-active
       autoPromotionEnabled: true  # Automatically promote the new version
       scaleDownDelaySeconds: 0
+      scaleDownDelayRevisionLimit: 0
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
