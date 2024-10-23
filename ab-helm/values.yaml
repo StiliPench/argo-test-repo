@@ -6,7 +6,7 @@
 #replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-replicas: 3
+replicas: 1
 app:
   name: nginx
 versionA:
@@ -16,7 +16,7 @@ versionA:
 versionB:
   image:
     repository: spenchev2003/nginx-custom  # Version B - Custom NGINX from Docker Hub
-    tag: latest  # Tag for your custom image
+    tag: 1.21.0  # Tag for your custom image
 
 
 

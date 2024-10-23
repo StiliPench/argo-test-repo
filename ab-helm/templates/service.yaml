@@ -2,17 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-service
-  labels:
-    app: {{ .Values.app.name }}
 spec:
   selector:
     app: {{ .Values.app.name }}
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80  # Route to version-a on port 80
-      name: "version-a-port"
-    - protocol: TCP
-      port: 81
-      targetPort: 81  # Route to version-b on port 81
-      name: "version-b-port"
+      targetPort: 80
