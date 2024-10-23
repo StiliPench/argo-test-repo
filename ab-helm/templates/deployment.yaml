@@ -6,24 +6,23 @@ metadata:
     app: {{ .Values.app.name }}
 spec:
   replicas: {{ .Values.replicas }}
-  strategy:
-    canary:
-      steps:
-        - setWeight: 50  # Split traffic 50% for each version
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50  # Split traffic 50% between stable and canary
+      stableService: {{ .Release.Name }}-stable-service
+      canaryService: {{ .Release.Name }}-canary-service
   template:
     metadata:
       labels:
         app: {{ .Values.app.name }}
     spec:
       containers:
-        - name: version-a
-          image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
+        - name: app
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
-            - containerPort: 80  # Version A listens on port 80
-        - name: version-b
-          image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
-          ports:
-            - containerPort: 81  # Version B listens on port 81
+            - containerPort: 80
