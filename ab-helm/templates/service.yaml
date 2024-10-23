@@ -11,6 +11,8 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80  # Route to version-a on port 80
+      name: "version-a-port"  # Unique name for version-a port
     - protocol: TCP
       port: 8080
       targetPort: 8080  # Route to version-b on port 8080
+      name: "version-b-port"  # Unique name for version-b port
