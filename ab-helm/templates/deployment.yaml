@@ -6,21 +6,18 @@ metadata:
     app: {{ .Values.app.name }}
 spec:
   replicas: {{ .Values.replicas }}
-  revisionHistoryLimit: 2
-  selector:
-    matchLabels:
-      app: {{ .Values.app.name }}
   strategy:
     canary:
       steps:
-        - setWeight: 50  # Split traffic 50% between stable and canary
-      stableService: {{ .Release.Name }}-stable-service
-      canaryService: {{ .Release.Name }}-canary-service
+        - setWeight: 50  # 50% traffic split between version A and version B
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
         app: {{ .Values.app.name }}
-   spec:
+    spec:
       containers:
         - name: version-a
           image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
@@ -30,4 +27,3 @@ spec:
           image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
           ports:
             - containerPort: 81  # Version B listens on port 81 (Custom image)
-
