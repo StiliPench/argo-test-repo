@@ -9,7 +9,7 @@ spec:
   strategy:
     canary:
       steps:
-        - setWeight: 50  # Send 50% of traffic to version A and 50% to version B
+        - setWeight: 50  # Split traffic 50% for each version
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
@@ -22,8 +22,8 @@ spec:
         - name: version-a
           image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
           ports:
-            - containerPort: 80
+            - containerPort: 80  # Version A listens on port 80
         - name: version-b
           image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
           ports:
-            - containerPort: 8080
+            - containerPort: 81  # Version B listens on port 81
