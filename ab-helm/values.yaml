@@ -14,8 +14,8 @@ image:
   tag: 1.21.0  # For example, '1.0.0'
 
 canaryImage:
-  repository: nginx
-  tag: 1.21.1 # For example, '1.1.0'
+  repository: spenchev2003/nginx-custom
+  tag: 1.21.0 # For example, '1.1.0'
 
 
 
