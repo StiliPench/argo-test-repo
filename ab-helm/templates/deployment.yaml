@@ -26,4 +26,4 @@ spec:
         - name: version-b
           image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
           ports:
-            - containerPort: 80
+            - containerPort: 8080
