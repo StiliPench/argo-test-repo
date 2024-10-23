@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ .Release.Name }}-ab-test-rollout
+  name: {{ .Release.Name }}-ab-rollout
   labels:
     app: {{ .Values.app.name }}
 spec:
@@ -9,7 +9,7 @@ spec:
   strategy:
     canary:
       steps:
-        - setWeight: 50  # Split traffic 50% for each version
+        - setWeight: 50  # Send 50% of traffic to version A and 50% to version B
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
