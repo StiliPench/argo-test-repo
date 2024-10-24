@@ -20,8 +20,8 @@ spec:
         - name: version-a
           image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
           ports:
-            - containerPort: 80  # Both versions will listen on port 80
+            - containerPort: 80  # listen on 80
         - name: version-b
           image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
           ports:
-            - containerPort: 80  # Both versions will listen on port 80
+            - containerPort: 81 # listen on 81

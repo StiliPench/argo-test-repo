@@ -8,4 +8,10 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 80 # Route to version-a on port 80
+      name: version-a
+    - protocol: TCP
+      port: 81
+      targetPort: 81  # Route to version-b on port 81
+      name: version-b
+  type: ClusterIP
