@@ -9,14 +9,13 @@
 replicas: 3
 app:
   name: nginx
-versionA:
-  image:
-    repository: nginx
-    tag: 1.21.0
-versionB:
-  image:
-    repository: spenchev2003/nginx-custom
-    tag: latest
+  
+image:
+  repository: nginx
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.26.0
 
 
 

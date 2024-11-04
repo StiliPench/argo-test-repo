@@ -8,6 +8,13 @@ spec:
     canary:
       steps:
         - setWeight: 50  # Split traffic
+        - experiment:
+          templates:
+          - name: canary
+            specRef: canary
+          analyses:
+          - name: random-fail
+            templateName: random-fail
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
@@ -17,11 +24,7 @@ spec:
         app: {{ .Values.app.name }}
     spec:
       containers:
-        - name: version-a
-          image: {{ .Values.versionA.image.repository }}:{{ .Values.versionA.image.tag }}
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 80
-        - name: version-b
-          image: {{ .Values.versionB.image.repository }}:{{ .Values.versionB.image.tag }}
-          ports:
-            - containerPort: 81
