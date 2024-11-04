@@ -8,7 +8,9 @@ spec:
     canary:
       steps:
         - setWeight: 50  # Split traffic
+        - pause: {duration: 10s}
         - experiment:
+          duration: 1m
           templates:
           - name: canary
             specRef: canary
