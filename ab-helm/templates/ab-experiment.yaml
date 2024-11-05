@@ -4,7 +4,7 @@ metadata:
   name: ab-experiment
   namespace: nginx-ab-helm
 spec:
-  duration: 30s
+  duration: 30s  # Experiment duration
   terminate: true
   templates:
     - name: version-a
@@ -20,5 +20,20 @@ spec:
           containers:
             - name: nginx
               image: nginx:1.26.1
+              ports:
+                - containerPort: 80
+    - name: version-b
+      replicas: 1
+      selector:
+        matchLabels:
+          version: B
+      template:
+        metadata:
+          labels:
+            version: B
+        spec:
+          containers:
+            - name: nginx
+              image: nginx:1.26.2
               ports:
                 - containerPort: 80

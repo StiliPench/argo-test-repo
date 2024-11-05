@@ -15,7 +15,9 @@ spec:
             templates:
               - name: version-a
                 specRef: version-a
-            duration: 30s
+              - name: version-b
+                specRef: version-b
+            duration: 30s  # Duration for the experiment
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
