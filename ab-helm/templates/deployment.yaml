@@ -13,22 +13,8 @@ spec:
         - pause: {duration: 10s}
         - experiment:
             templates:
-              - name: canary-test
-                spec:
-                  replicas: 1
-                  selector:
-                    matchLabels:
-                      version: "canary"
-                  template:
-                    metadata:
-                      labels:
-                        version: "canary"
-                    spec:
-                      containers:
-                        - name: nginx
-                          image: nginx:1.26.1
-                          ports:
-                            - containerPort: 80
+              - name: version-a
+                specRef: version-a
             duration: 30s  # Duration for the experiment
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
