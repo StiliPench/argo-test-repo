@@ -18,6 +18,7 @@ spec:
               - name: version-b
                 specRef: version-b
             duration: 30s  # Duration for the experiment
+            terminate: true
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
