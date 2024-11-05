@@ -1,30 +1,37 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Experiment
 metadata:
-  name: {{ .Release.Name }}-experiment
+  name: ab-experiment
+  namespace: default  # Optional, specify if needed
 spec:
   templates:
     - name: version-a
       replicas: 1
+      selector:
+        matchLabels:
+          version: "A"
       template:
         metadata:
           labels:
             version: "A"
         spec:
           containers:
-            - name: {{ .Values.app.name }}
-              image: {{ .Values.image.repository }}:{{ .Values.image.tagA }}
+            - name: nginx
+              image: nginx:1.26.1  # Replace with your image version
               ports:
                 - containerPort: 80
     - name: version-b
       replicas: 1
+      selector:
+        matchLabels:
+          version: "B"
       template:
         metadata:
           labels:
             version: "B"
         spec:
           containers:
-            - name: {{ .Values.app.name }}
-              image: {{ .Values.image.repository }}:{{ .Values.image.tagB }}
+            - name: nginx
+              image: nginx:1.26.2  # Replace with your image version
               ports:
                 - containerPort: 80
