@@ -13,6 +13,7 @@ spec:
             specRef: stable
           - name: canary
             specRef: canary
+          duration: 30s
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
