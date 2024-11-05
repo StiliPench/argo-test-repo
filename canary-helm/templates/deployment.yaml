@@ -12,7 +12,7 @@ spec:
         - setWeight: 20  # Route 20% of traffic to canary version
         - pause: {duration: 10s}
         - setWeight: 50  # Route 50% of traffic to canary version
-        - pause: {duration: 10s}
+        - pause: {duration: 300s}
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
@@ -26,4 +26,4 @@ spec:
         - name: {{ .Values.app.name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
-            - containerPort: 80
+            - containerPort: 81
