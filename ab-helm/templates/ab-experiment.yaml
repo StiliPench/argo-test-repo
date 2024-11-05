@@ -4,8 +4,8 @@ metadata:
   name: ab-experiment
   namespace: nginx-ab-helm
 spec:
-  duration: 30s  # Minimum time the experiment should run
-  terminate: true  # This can be used to indicate that the experiment should terminate
+  duration: 30s
+  terminate: true
   templates:
     - name: version-a
       replicas: 1
