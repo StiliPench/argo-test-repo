@@ -12,14 +12,12 @@ spec:
         - setWeight: 50  # Route 50% of traffic to canary version
         - pause: {duration: 10s}
         - experiment:
-          templates:
-          - name: canary
-            specRef: canary
-          # This experiment performs its own analysis by referencing one or more AnalysisTemplates
-          # here. The success or failure of these runs will progress or abort the rollout respectively.
-          analyses:
-          - name: random-fail
-            templateName: random-fail
+            templates:
+              - name: version-a
+                specRef: version-a
+              - name: version-b
+                specRef: version-b
+            duration: 30s  # Duration for the experiment
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
