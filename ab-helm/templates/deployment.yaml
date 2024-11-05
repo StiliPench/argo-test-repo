@@ -17,9 +17,6 @@ spec:
             specRef: canary
           # This experiment performs its own analysis by referencing one or more AnalysisTemplates
           # here. The success or failure of these runs will progress or abort the rollout respectively.
-          analyses:
-          - name: pass
-            templateName: pass
         - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
