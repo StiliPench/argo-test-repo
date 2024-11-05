@@ -13,7 +13,7 @@ app:
 image:
   repository: nginx
   pullPolicy: IfNotPresent
-  tag: 1.26.0      # Main/stable version
+  tag: 1.21.0      # Main/stable version
   tagA: 1.26.1     # Version A for experiment
   tagB: 1.26.2     # Version B for experiment
 
