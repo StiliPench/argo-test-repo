@@ -4,6 +4,8 @@ metadata:
   name: ab-experiment
   namespace: default  # Optional, specify if needed
 spec:
+  duration: 30s  # Minimum time the experiment should run
+  terminate: true
   templates:
     - name: version-a
       replicas: 1
