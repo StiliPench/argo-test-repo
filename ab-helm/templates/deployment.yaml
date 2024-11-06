@@ -10,7 +10,7 @@ spec:
       canaryService: {{ .Release.Name }}-canary
       trafficRouting:
         alb:
-          ingress: ab-helm-ingress
+          ingress: ab-helm
           servicePort: 80
       steps:
         - setWeight: 50
