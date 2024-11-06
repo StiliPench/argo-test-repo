@@ -10,7 +10,7 @@ spec:
       canaryService: {{ .Release.Name }}-canary
       trafficRouting:
         alb:
-          ingress: {{ .Release.Name }}-ingress
+          ingress: {{ $fullName }}
           servicePort: 80
       steps:
         - setWeight: 50
