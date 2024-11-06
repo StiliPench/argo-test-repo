@@ -14,8 +14,8 @@ spec:
           servicePort: 80
       steps:
         - setWeight: 50
-          pause:
-            duration: 30s
+        - pause: {duration: 60s}
+        - setWeight: 100
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
