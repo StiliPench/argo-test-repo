@@ -67,7 +67,7 @@ ingress:
   enabled: true
   className: ""
   annotations:
-     alb.ingress.kubernetes.io/actions.ab-helm-stable: '{"Type":"forward","ForwardConfig":{"TargetGroups":[{"ServiceName":"ab-helm-canary","ServicePort":"80","Weight":50},{"ServiceName":"ab-helm-stable","ServicePort":"80","Weight":50}]}}'
+     #alb.ingress.kubernetes.io/actions.ab-helm-stable: '{"Type":"forward","ForwardConfig":{"TargetGroups":[{"ServiceName":"ab-helm-canary","ServicePort":"80","Weight":50},{"ServiceName":"ab-helm-stable","ServicePort":"80","Weight":50}]}}'
      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:996973023574:certificate/8bb1d010-37f3-4452-824c-24046da44569
      alb.ingress.kubernetes.io/security-groups: external-alb-sg
      alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
