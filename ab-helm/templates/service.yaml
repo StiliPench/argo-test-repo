@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: {{ include "ab-helm.fullname" . }}
   labels:
-    {{- include "ab-helm.labels" . | nindent 4 }}
+    app: {{ .Values.app.name }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 80
       protocol: TCP
       name: http
   selector:
-    {{- include "ab-helm.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.app.name }}
