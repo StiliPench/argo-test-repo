@@ -11,7 +11,7 @@ app:
   name: nginx
 
 image:
-  repository: spenchev2003/nginx-custom
+  repository: nginx
   pullPolicy: IfNotPresent
   tag: 1.21.0
 
