@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-shadow
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: nginx
+    version: v2
+spec:
+  replicas: {{ .Values.shadow.replicaCount }}
+  selector:
+    matchLabels:
+      app: nginx
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: nginx
+        version: v2
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.shadow.image.repository }}:{{ .Values.shadow.image.tag }}"
+          imagePullPolicy: {{ .Values.shadow.image.pullPolicy }}
+          ports:
+            - containerPort: 80

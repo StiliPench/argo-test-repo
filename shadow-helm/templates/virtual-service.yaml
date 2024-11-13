@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nginx-virtualservice
+  namespace: {{ .Values.namespace }}
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - {{ .Values.istio.gateway }}
+  http:
+    - route:
+        - destination:
+            host: nginx-service.{{ .Values.namespace }}.svc.cluster.local
+            subset: v1
+      mirror:
+        host: nginx-service.{{ .Values.namespace }}.svc.cluster.local
+        subset: v2
+      mirrorPercentage:
+        value: {{ .Values.istio.mirrorPercentage }}
