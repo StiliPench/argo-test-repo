@@ -19,6 +19,7 @@ shadow:
     pullPolicy: IfNotPresent
 
 service:
+  type: ClusterIP
   port: 80
 
 istio:
