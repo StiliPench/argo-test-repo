@@ -86,7 +86,7 @@ ingress:
           pathType: Prefix
   tls:
     - hosts:
-        - nginx-canary.eu.stg.zivver.org
+        - nginx-canary.eu.sbx-001.zivver.org
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
