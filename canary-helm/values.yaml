@@ -63,20 +63,29 @@ service:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations:
+     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:996973023574:certificate/8bb1d010-37f3-4452-824c-24046da44569
+     alb.ingress.kubernetes.io/security-groups: "internal-alb-sg, sg_vpn"
+     alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
+     alb.ingress.kubernetes.io/scheme: "internal"
+     alb.ingress.kubernetes.io/target-type: "ip"
+     kubernetes.io/ingress.class: "alb"
+     alb.ingress.kubernetes.io/ip-address-type: dualstack
+     kubernetes.io/tls-acme: "true"
+     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+     alb.ingress.kubernetes.io/ssl-redirect: '443'
+     alb.ingress.kubernetes.io/healthcheck-path: /
+     alb.ingress.kubernetes.io/group.name: sbx-001
   hosts:
-    - host: chart-example.local
+    - host: nginx-canary.eu.sbx-001.zivver.org
       paths:
         - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+          pathType: Prefix
+  tls:
+    - hosts:
+        - nginx-canary.eu.stg.zivver.org
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
