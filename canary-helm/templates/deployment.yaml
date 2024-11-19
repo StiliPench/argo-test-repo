@@ -9,11 +9,8 @@ spec:
   strategy:
     canary:
       steps:
-        - setWeight: 20  # Route 20% of traffic to canary version
-        - pause: {duration: 10s}
-        - setWeight: 50  # Route 50% of traffic to canary version
+        - setWeight: 33  # Route 50% of traffic to canary version
         - pause: {}
-        - setWeight: 100  # Finally switch all traffic to canary
   selector:
     matchLabels:
       app: {{ .Values.app.name }}
