@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ .Release.Name }}-rollout
+  name: {{ .Release.Name }}
   labels:
     app: {{ .Values.app.name }}
 spec:
@@ -23,7 +23,7 @@ spec:
             - containerPort: {{ .Values.image.port }}
   strategy:
     blueGreen:
-      activeService: {{ .Values.rollout.activeService }}
-      previewService: {{ .Values.rollout.previewService }}
+      activeService: {{ include "rollout-templates.fullname" . }}-active
+      previewService: {{ include "rollout-templates.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
 {{- end }}
