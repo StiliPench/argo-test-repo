@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ include "rollout-templates.fullname" . }}-active
   labels:
-    {{- include "rollout-templates.labels" . | nindent 4 }}
+    app.kubernetes.io/instance: nginx
 spec:
   type: {{ .Values.service.type }}
   ports:
