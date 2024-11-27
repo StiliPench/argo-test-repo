@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ include "rollout-templates.fullname" . }}
   labels:
-    {{- include "rollout-templates.labels" . | nindent 4 }}
+    app: {{ .Values.app.name }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,5 +13,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "rollout-templates.selectorLabels" . | nindent 4 }}
+    app: {{ .Values.app.name }}
 {{- end }}
