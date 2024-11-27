@@ -15,7 +15,7 @@ image:
 
 
 rollout:
-  create: true
+  create: false
   strategy: blueGreen
   autoPromotionEnabled: false
 
