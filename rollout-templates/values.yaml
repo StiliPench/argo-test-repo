@@ -15,7 +15,7 @@ image:
 
 
 rollout:
-  create: false
+  create: true
   strategy: canary
   canary:
     steps:
