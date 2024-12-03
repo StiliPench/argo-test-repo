@@ -27,7 +27,7 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.image.port }}
+            - containerPort: 80
   strategy:
     canary:
       steps:
