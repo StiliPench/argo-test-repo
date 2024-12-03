@@ -31,7 +31,7 @@ spec:
   strategy:
     canary:
       steps:
-        {{- range .Values.rollout.canary.steps }}
+        {{- range .Values.rollout.steps }}
         {{- if .setWeight }}
         - setWeight: {{ .setWeight }}
         {{- end }}

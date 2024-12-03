@@ -14,15 +14,14 @@ image:
 rollout:
   create: true
   strategy: canary
-  canary:
-    steps:
-      - setWeight: 20
-      - pause:
-          duration: 10s
-      - setWeight: 50
-      - pause:
-          duration: 10s
-      - setWeight: 100
+  steps:
+    - setWeight: 20
+    - pause:
+        duration: 10s
+    - setWeight: 50
+    - pause:
+        duration: 10s
+    - setWeight: 100
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
