@@ -23,11 +23,11 @@ spec:
         {{- end }}
     spec:
       containers:
-        - name: {{ .Values.app.name }}
+        - name: {{ .Chart.Name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.service.port }}
   strategy:
     canary:
       steps:
