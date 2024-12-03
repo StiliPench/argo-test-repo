@@ -2,21 +2,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "rollout-templates.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "nginx-chart.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "rollout-templates.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "nginx-chart.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "rollout-templates.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/name: {{ include "nginx-chart.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "rollout-templates.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Values.app.name }}
