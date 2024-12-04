@@ -1,4 +1,4 @@
-{{- if and .Values.rollout.create (eq .Values.rollout.strategy "blueGreen") }}
+{{- if and .Values.strategy (eq .Values.strategy.type "blueGreen") }}
 apiVersion: v1
 kind: Service
 metadata:
