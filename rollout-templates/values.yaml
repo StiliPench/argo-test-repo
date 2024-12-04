@@ -11,8 +11,7 @@ image:
   tag: 1.21.1
 
 # This specifies the rollout strategy to be used.
-strategy:
-  type: canary
+strategy: {}
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
