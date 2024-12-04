@@ -82,12 +82,12 @@ spec:
             {{- end }}
         {{- end }}
         {{- end }}
-    {{- end }}
-    {{- if eq .Values.strategy.type "blueGreen" }}
+    {{- else if eq .Values.strategy.type "blueGreen" }}
     blueGreen:
       activeService: {{ include "rollout-templates.fullname" . }}-active
       previewService: {{ include "rollout-templates.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
+    {{- else }}
+    canary:
     {{- end }}
   {{- end }}
-  
