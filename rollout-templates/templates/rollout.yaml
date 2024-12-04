@@ -89,5 +89,4 @@ spec:
       previewService: {{ include "nginx.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
     {{- end }}
-  {{- end }}
 {{- end }}
