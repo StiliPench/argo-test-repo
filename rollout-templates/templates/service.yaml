@@ -1,4 +1,4 @@
-{{- if or (not .Values.strategy.type) (not (eq .Values.strategy.type "blueGreen")) }}
+{{- if or (not .Values.strategy) (not (eq .Values.strategy.type "blueGreen")) }}
 apiVersion: v1
 kind: Service
 metadata:
