@@ -71,7 +71,7 @@ spec:
     {{- if eq .Values.strategy.type "canary" }}
     canary:
       steps:
-        {{- range .Values.rollout.steps }}
+        {{- range .Values.strategy.steps }}
         {{- if .setWeight }}
         - setWeight: {{ .setWeight }}
         {{- end }}
@@ -87,6 +87,6 @@ spec:
     blueGreen:
       activeService: {{ include "rollout-templates.fullname" . }}-active
       previewService: {{ include "rollout-templates.fullname" . }}-preview
-      autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
+      autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
     {{- end }}
   {{- end }}

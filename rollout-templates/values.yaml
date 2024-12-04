@@ -10,7 +10,7 @@ image:
   pullPolicy: IfNotPresent
   tag: 1.21.0
 
-
+# This specifies the rollout strategy to be used.
 strategy:
   type: canary
   steps:
