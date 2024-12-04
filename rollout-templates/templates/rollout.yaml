@@ -1,4 +1,3 @@
-{{- if .Values.rollout.create }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -67,8 +66,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if .Values.strategy }}
   strategy:
-    {{- if eq .Values.rollout.strategy "canary" }}
+    {{- if eq .Values.strategy.type "canary" }}
     canary:
       steps:
         {{- range .Values.rollout.steps }}
@@ -83,10 +83,10 @@ spec:
         {{- end }}
         {{- end }}
     {{- end }}
-    {{- if eq .Values.rollout.strategy "blueGreen" }}
+    {{- if eq .Values.strategy.type "blueGreen" }}
     blueGreen:
-      activeService: {{ include "nginx.fullname" . }}-active
-      previewService: {{ include "nginx.fullname" . }}-preview
+      activeService: {{ include "rollout-templates.fullname" . }}-active
+      previewService: {{ include "rollout-templates.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
     {{- end }}
-{{- end }}
+  {{- end }}
