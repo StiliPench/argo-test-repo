@@ -67,7 +67,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
   strategy:
-    {{- if eq .Values.strategy.type "canary" }}
+    {{- if Values.strategy}}
+    canary:
+    {{- else if eq .Values.strategy.type "canary" }}
     canary:
       steps:
         {{- range .Values.strategy.steps }}
@@ -86,6 +88,4 @@ spec:
       activeService: {{ include "rollout-templates.fullname" . }}-active
       previewService: {{ include "rollout-templates.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
-    {{- else }}
-    canary:
     {{- end }}
