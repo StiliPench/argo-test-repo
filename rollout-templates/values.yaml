@@ -15,11 +15,9 @@ strategy:
   type: canary
   steps:
     - setWeight: 20
-    - pause:
-      duration: 10s
+    - pause: { duration: 10s }
     - setWeight: 50
-    - pause:
-      duration: 10s
+    - pause: { duration: 10s }
     - setWeight: 100
 
 
