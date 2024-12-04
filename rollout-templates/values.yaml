@@ -8,7 +8,7 @@ replicaCount: 3
 image:
   repository: nginx
   pullPolicy: IfNotPresent
-  tag: 1.21.0
+  tag: 1.21.1
 
 
 rollout:
