@@ -1,4 +1,4 @@
-{{- if and .Values.rollout.create (eq .Values.rollout.strategy "canary") }}
+{{- if .Values.rollout.create }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -37,8 +37,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            {{- toYaml .Values.env | nindent 12 }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -70,6 +68,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
   strategy:
+    {{- if eq .Values.rollout.strategy "canary" }}
     canary:
       steps:
         {{- range .Values.rollout.steps }}
@@ -83,4 +82,12 @@ spec:
             {{- end }}
         {{- end }}
         {{- end }}
+    {{- end }}
+    {{- if eq .Values.rollout.strategy "blueGreen" }}
+    blueGreen:
+      activeService: {{ include "nginx.fullname" . }}-active
+      previewService: {{ include "nginx.fullname" . }}-preview
+      autoPromotionEnabled: {{ .Values.rollout.autoPromotionEnabled }}
+    {{- end }}
+  {{- end }}
 {{- end }}
