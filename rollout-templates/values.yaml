@@ -12,7 +12,7 @@ image:
 
 
 rollout:
-  create: true
+  create: false
   strategy: canary
   steps:
     - setWeight: 20
