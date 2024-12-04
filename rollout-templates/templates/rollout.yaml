@@ -90,3 +90,4 @@ spec:
       autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
     {{- end }}
   {{- end }}
+  

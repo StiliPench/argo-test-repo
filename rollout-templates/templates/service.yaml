@@ -1,0 +1,55 @@
+{{- if or (not .Values.strategy.type) (not (eq .Values.strategy.type "blueGreen")) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rollout-templates.fullname" . }}
+  labels:
+    {{- include "rollout-templates.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "rollout-templates.selectorLabels" . | nindent 4 }}
+{{- end }}
+
+---
+{{- if and .Values.strategy (eq .Values.strategy.type "blueGreen") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rollout-templates.fullname" . }}-active
+  labels:
+    {{- include "rollout-templates.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "rollout-templates.selectorLabels" . | nindent 4 }}
+{{- end }}
+
+---
+{{- if and .Values.strategy (eq .Values.strategy.type "blueGreen") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rollout-templates.fullname" . }}-preview
+  labels:
+    {{- include "rollout-templates.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "rollout-templates.selectorLabels" . | nindent 4 }}
+{{- end }}
