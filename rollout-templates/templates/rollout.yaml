@@ -67,8 +67,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
   strategy:
-    {{- if Values.strategy }}
-    canary:
+    {{- if .Values.strategy }}
+    canary: {}
     {{- else if eq .Values.strategy.type "canary" }}
     canary:
       steps:
