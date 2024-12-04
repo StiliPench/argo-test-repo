@@ -68,7 +68,7 @@ spec:
       {{- end }}
   strategy:
     {{- if not .Values.strategy }}
-    canary: {}
+    canary:
     {{- else if eq .Values.strategy.type "canary" }}
     canary:
       steps:
