@@ -87,8 +87,8 @@ spec:
         {{- end }}
     {{- else if eq .Values.strategy.type "blueGreen" }}
     blueGreen:
-      activeService: {{ include "nginx.fullname" . }}-active
-      previewService: {{ include "nginx.fullname" . }}-preview
+      activeService: {{ include "rollout-templates.fullname" . }}-active
+      previewService: {{ include "rollout-templates.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
       autoPromotionSeconds: {{ .Values.strategy.autoPromotionSeconds }}
       previewReplicaCount: {{ .Values.strategy.previewReplicaCount }}
