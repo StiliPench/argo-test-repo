@@ -69,6 +69,10 @@ spec:
   strategy:
     {{- if eq .Values.strategy.type "canary" }}
     canary:
+      canaryService: {{ .Values.strategy.canaryService }}
+      stableService: {{ .Values.strategy.stableService }}
+      maxSurge: {{ .Values.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.maxUnavailable }}
       steps:
         {{- range .Values.strategy.steps }}
         {{- if .setWeight }}
@@ -83,7 +87,11 @@ spec:
         {{- end }}
     {{- else if eq .Values.strategy.type "blueGreen" }}
     blueGreen:
-      activeService: {{ include "rollout-templates.fullname" . }}-active
-      previewService: {{ include "rollout-templates.fullname" . }}-preview
+      activeService: {{ include "nginx.fullname" . }}-active
+      previewService: {{ include "nginx.fullname" . }}-preview
       autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
+      autoPromotionSeconds: {{ .Values.strategy.autoPromotionSeconds }}
+      previewReplicaCount: {{ .Values.strategy.previewReplicaCount }}
+      scaleDownDelaySeconds: {{ .Values.strategy.scaleDownDelaySeconds }}
+      scaleDownDelayRevisionLimit: {{ .Values.strategy.scaleDownDelayRevisionLimit }}
     {{- end }}
