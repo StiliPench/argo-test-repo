@@ -1,48 +1,49 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
-metadata:
-  name: {{ include "rollout-templates.fullname" . }}
-  labels:
-    {{- include "rollout-templates.labels" . | nindent 4 }}
-spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      {{- include "rollout-templates.selectorLabels" . | nindent 6 }}
-  workloadRef:                                 # Reference an existing Deployment using workloadRef field
-    apiVersion: apps/v1
-    kind: Deployment
-    name: rollout-templates
-    scaleDown: onsuccess
-  strategy:
-    {{- if eq .Values.strategy.type "canary" }}
-    canary:
-      canaryService: {{ .Values.strategy.canaryService }}
-      stableService: {{ .Values.strategy.stableService }}
-      maxSurge: {{ .Values.strategy.maxSurge }}
-      maxUnavailable: {{ .Values.strategy.maxUnavailable }}
-      steps:
-        {{- range .Values.strategy.steps }}
-        {{- if .setWeight }}
-        - setWeight: {{ .setWeight }}
-        {{- end }}
-        {{- if .pause }}
-        - pause:
-            {{- if .pause.duration }}
-            duration: {{ .pause.duration }}
-            {{- end }}
-        {{- end }}
-        {{- end }}
-    {{- else if eq .Values.strategy.type "blueGreen" }}
-    blueGreen:
-      activeService: {{ include "rollout-templates.fullname" . }}-active
-      previewService: {{ include "rollout-templates.fullname" . }}-preview
-      autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
-      autoPromotionSeconds: {{ .Values.strategy.autoPromotionSeconds }}
-      previewReplicaCount: {{ .Values.strategy.previewReplicaCount }}
-      scaleDownDelaySeconds: {{ .Values.strategy.scaleDownDelaySeconds }}
-      scaleDownDelayRevisionLimit: {{ .Values.strategy.scaleDownDelayRevisionLimit }}
+{{- if .Values.useRollout }}
+  apiVersion: argoproj.io/v1alpha1
+  kind: Rollout
+  metadata:
+    name: {{ include "rollout-templates.fullname" . }}
+    labels:
+      {{- include "rollout-templates.labels" . | nindent 4 }}
+  spec:
+    {{- if not .Values.autoscaling.enabled }}
+    replicas: {{ .Values.replicaCount }}
     {{- end }}
-
+    selector:
+      matchLabels:
+        {{- include "rollout-templates.selectorLabels" . | nindent 6 }}
+    workloadRef:                                 # Reference an existing Deployment using workloadRef field
+      apiVersion: apps/v1
+      kind: Deployment
+      name: rollout-templates
+      scaleDown: onsuccess
+    strategy:
+      {{- if eq .Values.strategy.type "canary" }}
+      canary:
+        canaryService: {{ .Values.strategy.canaryService }}
+        stableService: {{ .Values.strategy.stableService }}
+        maxSurge: {{ .Values.strategy.maxSurge }}
+        maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+        steps:
+          {{- range .Values.strategy.steps }}
+          {{- if .setWeight }}
+          - setWeight: {{ .setWeight }}
+          {{- end }}
+          {{- if .pause }}
+          - pause:
+              {{- if .pause.duration }}
+              duration: {{ .pause.duration }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+      {{- else if eq .Values.strategy.type "blueGreen" }}
+      blueGreen:
+        activeService: {{ include "rollout-templates.fullname" . }}-active
+        previewService: {{ include "rollout-templates.fullname" . }}-preview
+        autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
+        autoPromotionSeconds: {{ .Values.strategy.autoPromotionSeconds }}
+        previewReplicaCount: {{ .Values.strategy.previewReplicaCount }}
+        scaleDownDelaySeconds: {{ .Values.strategy.scaleDownDelaySeconds }}
+        scaleDownDelayRevisionLimit: {{ .Values.strategy.scaleDownDelayRevisionLimit }}
+      {{- end }}
+{{- end }}
