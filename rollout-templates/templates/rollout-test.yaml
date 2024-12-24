@@ -15,7 +15,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: rollout-templates
-    scaleDown: onsuccess
+    scaleDown: progressively
   strategy:
     {{- if eq .Values.strategy.type "canary" }}
     canary:
