@@ -1,4 +1,3 @@
-{{- if .Values.useRollout }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -46,4 +45,3 @@ spec:
       scaleDownDelaySeconds: {{ .Values.strategy.scaleDownDelaySeconds }}
       scaleDownDelayRevisionLimit: {{ .Values.strategy.scaleDownDelayRevisionLimit }}
     {{- end }}
-{{- end }}
