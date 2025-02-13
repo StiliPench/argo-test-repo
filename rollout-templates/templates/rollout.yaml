@@ -1,68 +1,52 @@
-apiVersion: apps/v1
-kind: Deployment
+{{- if .Values.strategy.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "rollout-templates.fullname" . }}
   labels:
     {{- include "rollout-templates.labels" . | nindent 4 }}
 spec:
+  {{- if .Values.revisionHistoryLimit }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  {{- end }}
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "rollout-templates.selectorLabels" . | nindent 6 }}
-  template:
-    metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      labels:
-        {{- include "rollout-templates.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
+  workloadRef:                                 # Reference an existing Deployment using workloadRef field
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "rollout-templates.fullname" . }}
+    scaleDown: onsuccess
+  strategy:
+    {{- if eq .Values.strategy.type "canary" }}
+    canary:
+      canaryService: {{ .Values.strategy.canaryService }}
+      stableService: {{ .Values.strategy.stableService }}
+      maxSurge: {{ .Values.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+      steps:
+        {{- range .Values.strategy.steps }}
+        {{- if .setWeight }}
+        - setWeight: {{ .setWeight }}
         {{- end }}
-    spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "rollout-templates.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- if .pause }}
+        - pause:
+            {{- if .pause.duration }}
+            duration: {{ .pause.duration }}
+            {{- end }}
+        {{- end }}
+        {{- end }}
+    {{- else if eq .Values.strategy.type "blueGreen" }}
+    blueGreen:
+      activeService: {{ include "rollout-templates.fullname" . }}
+      previewService: {{ include "rollout-templates.fullname" . }}-preview
+      autoPromotionEnabled: {{ .Values.strategy.autoPromotionEnabled }}
+      autoPromotionSeconds: {{ .Values.strategy.autoPromotionSeconds }}
+      previewReplicaCount: {{ .Values.strategy.previewReplicaCount }}
+      scaleDownDelaySeconds: {{ .Values.strategy.scaleDownDelaySeconds }}
+      scaleDownDelayRevisionLimit: {{ .Values.strategy.scaleDownDelayRevisionLimit }}
+    {{- end }}
+{{- end }}
