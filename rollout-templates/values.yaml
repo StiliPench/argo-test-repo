@@ -60,8 +60,7 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: ""
-  annotations:
+  annotations: {
      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:996973023574:certificate/8bb1d010-37f3-4452-824c-24046da44569
      alb.ingress.kubernetes.io/security-groups: external-alb-sg
      alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
@@ -81,7 +80,9 @@ ingress:
      alb.ingress.kubernetes.io/success-codes: "200",
      alb.ingress.kubernetes.io/healthy-threshold-count: "2",
      alb.ingress.kubernetes.io/unhealthy-threshold-count: "2",
-  labels: {}
+    }
+    
+    labels: {}
     # -- Defines which ingress controller will implement the resource
     ingressClassName: "alb"
 
