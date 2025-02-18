@@ -65,6 +65,7 @@ ingress:
   annotations:
      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:996973023574:certificate/8bb1d010-37f3-4452-824c-24046da44569
      alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
+     alb.ingress.kubernetes.io/security-groups: '["external-alb-sg"]'
      alb.ingress.kubernetes.io/scheme: "internet-facing"
      alb.ingress.kubernetes.io/target-type: "ip"
      kubernetes.io/ingress.class: "alb"
