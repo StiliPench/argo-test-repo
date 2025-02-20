@@ -1,4 +1,4 @@
-{{- if and .Values.strategy.enabled (eq .Values.strategy.type "blueGreen") }}
+{{- if and .Values.strategy (.Values.strategy.enabled) (eq .Values.strategy.type "blueGreen") }}
   {{- $services := list (include "rollout-templates.fullname" .) (printf "%s-preview" (include "rollout-templates.fullname" .)) }}
   {{- range $services }}
 ---
