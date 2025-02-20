@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-  {{- if and .Values.strategy.enabled (eq .Values.strategy.type "blueGreen") }}
+  {{- if and .Values.strategy (.Values.strategy.enabled) (eq .Values.strategy.type "blueGreen") }}
     {{- $ingresses := list (include "rollout-templates.fullname" .) (printf "%s-preview" (include "rollout-templates.fullname" .)) }}
     {{- range $ingresses }}
     {{- $ingName := . }}
