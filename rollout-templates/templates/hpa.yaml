@@ -7,7 +7,7 @@ metadata:
     {{- include "rollout-templates.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    {{- if .Values.strategy.enabled }}
+    {{- if and .Values.strategy (.Values.strategy.enabled) }}
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     {{- else }}
