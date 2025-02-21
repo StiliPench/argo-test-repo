@@ -1,8 +1,8 @@
-{{- if .Values.autoscaling.enabled }}
+{{- if .Values.hpa.enabled -}}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "rollout-templates.fullname" . }}
+  name: {{ template "rollout-templates.fullname" . }}
   labels:
     {{- include "rollout-templates.labels" . | nindent 4 }}
 spec:
@@ -11,27 +11,38 @@ spec:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
     {{- else }}
-    apiVersion: apps/v1   
+    apiVersion: apps/v1
     kind: Deployment
     {{- end }}
-    name: {{ include "rollout-templates.fullname" . }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+    name: {{ template "rollout-templates.fullname" . }}
+  {{- if .Values.hpa.minReplicas }}
+  minReplicas: {{ toYaml .Values.hpa.minReplicas }}
+  {{- end }}
+  maxReplicas: {{ .Values.hpa.maxReplicas }}
   metrics:
-    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
-    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-    {{- end }}
+  {{- if .Values.hpa.cpu }}
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: {{ .Values.hpa.cpu }}
+  {{- end }}
+  {{- if .Values.hpa.memory }}
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: AverageValue
+        averageValue: {{ .Values.hpa.memory }}
+  {{- end }}
+  {{- if .Values.hpa.requests }}
+  - type: Pods
+    pods:
+      metric:
+        name: http_requests
+      target:
+        type: AverageValue
+        averageValue: {{ .Values.hpa.requests }}
+  {{- end }}
 {{- end }}

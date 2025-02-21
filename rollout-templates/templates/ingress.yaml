@@ -43,7 +43,7 @@ spec:
               service:
                 name: {{ $ingName }}
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: 80
           {{- end }}
     {{- end }}
     {{- end }}  # end ingresses
@@ -89,7 +89,7 @@ spec:
               service:
                 name: {{ include "rollout-templates.fullname" $ }}
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: 80
           {{- end }}
     {{- end }}
   {{- end }} # end if strat

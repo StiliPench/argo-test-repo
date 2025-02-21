@@ -6,11 +6,15 @@
 replicaCount: 3
 
 image:
-  repository: spenchev2003/nginx-custom
+  repository: nginx
   pullPolicy: IfNotPresent
   tag: 1.21.0
 
 # This specifies the rollout strategy to be used.
+strategy:
+  enabled: true
+  type: blueGreen
+  autoPromotionEnabled: false
 
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -49,15 +53,22 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
+#service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
+ # type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
-
+  #port: 80
+service:
+  type: ClusterIP
+  annotations: {}
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: true
+  enabled: false
   className: ""
   annotations:
      alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:996973023574:certificate/8bb1d010-37f3-4452-824c-24046da44569
@@ -105,12 +116,17 @@ readinessProbe:
     port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
-autoscaling:
-  enabled: false
-  minReplicas: 3
-  maxReplicas: 100
+#autoscaling:
+ # enabled: false
+  #minReplicas: 3
+  #maxReplicas: 100
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 3
 
 # Additional volumes on the output Deployment definition.
 volumes: []
